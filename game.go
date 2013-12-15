@@ -16,6 +16,7 @@ const (
   RED = 2
   GREEN = 3
   BLUE = 4
+  ORANGE = 5
 )
 
 type Color struct {
@@ -35,12 +36,12 @@ func PointColor(p Point) Color {
     return Color{1.0, 1.0, 1.0, 1}
   }
   if p.Color == RED {
-    return Color{n, 0, 0, 1}
+    return Color{1, 1-n, 1-n, 1}
   }
   if p.Color == GREEN {
-    return Color{0, n, 0, 1}
+    return Color{1-n, 1, 1-n, 1}
   }
-  return Color{0, 0, n, 1}
+  return Color{1-n, 1-n, 1, 1}
 }
 
 func Dir() (int, int) {
