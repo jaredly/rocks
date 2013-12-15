@@ -14,8 +14,8 @@ import (
 
 const (
 	Title  = "Spinning Gopher"
-	Width  = 640
-	Height = 480
+	Width  = 300
+	Height = 300
 )
 
 var (
@@ -56,7 +56,7 @@ func main() {
 	defer destroyScene()
 
 	for glfw.WindowParam(glfw.Opened) == 1 {
-		StepMatrix(Width/2, Height/2, matrix)
+		StepMatrix(Width, Height, matrix)
 		drawScene()
 		glfw.SwapBuffers()
 	}
@@ -79,7 +79,7 @@ func initScene() (err error) {
 	// gl.Enable(gl.POINT_SMOOTH)
 	// gl.Enable(gl.BLEND)
 	// gl.BlendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
-	gl.PointSize(2.0)
+	gl.PointSize(1.0)
 
 	/* assuming you have setup a 32-bit RGBA texture with a legal name */
 	// gl.ActiveTexture(gl.TEXTURE0)
@@ -106,7 +106,7 @@ func initScene() (err error) {
 		}
 	})
 
-	matrix = makeMatrix(Width/2, Height/2)
+	matrix = makeMatrix(Width, Height)
 
 	return
 }
@@ -120,7 +120,7 @@ func drawScene() {
 	gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
 	gl.Begin(gl.POINTS)
-	drawMatrix(matrix, 2, 2)
+	drawMatrix(matrix, 1, 1)
 	gl.End()
 	gl.Finish()
 }

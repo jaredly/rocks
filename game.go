@@ -42,6 +42,15 @@ func PointColor(p Point) Color {
     return Color{1-n, 1, 1-n, 1}
   }
   return Color{1-n, 1-n, 1, 1}
+  /*
+  if p.Color == RED {
+    return Color{n, 0, 0, 1}
+  }
+  if p.Color == GREEN {
+    return Color{0, n, 0, 1}
+  }
+  return Color{0, 0, n, 1}
+  */
 }
 
 func Dir() (int, int) {
@@ -133,6 +142,7 @@ func makeMatrix(width, height int) *[][]Point {
       m[x][y].Intensity = 10
     }
   }
+  /*
   a := width/3
   drawStripe(a, a, 20, 20, &m, RED)
   drawStripe(a+20, a, 20, 20, &m, BLUE)
@@ -146,6 +156,7 @@ func makeMatrix(width, height int) *[][]Point {
 
   drawStripe(a, a-20, 20, 20, &m, GREEN)
   drawStripe(a-20, a, 20, 20, &m, BLUE)
+  */
   return &m
 }
 
