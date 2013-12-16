@@ -98,6 +98,9 @@ func initScene() (err error) {
 		}
 	})
 	glfw.SetMousePosCallback(func (mx, my int) {
+                if mx >= Width || my >= Height || mx < 0 || my < 0 {
+                    return
+                }
 		x = mx
 		y = my
 		if matrix != nil {

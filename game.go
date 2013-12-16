@@ -32,6 +32,7 @@ func UseColor(c Color) {
 
 func PointColor(p Point) Color {
   n := gl.Float(float64(p.Intensity) / 10.0)
+  /*
   if p.Color == WHITE {
     return Color{1.0, 1.0, 1.0, 1}
   }
@@ -42,7 +43,10 @@ func PointColor(p Point) Color {
     return Color{1-n, 1, 1-n, 1}
   }
   return Color{1-n, 1-n, 1, 1}
-  /*
+  */
+  if p.Color == WHITE {
+    return Color{0, 0, 0, 1}
+  }
   if p.Color == RED {
     return Color{n, 0, 0, 1}
   }
@@ -50,7 +54,6 @@ func PointColor(p Point) Color {
     return Color{0, n, 0, 1}
   }
   return Color{0, 0, n, 1}
-  */
 }
 
 func Dir() (int, int) {
@@ -71,8 +74,8 @@ func Lose(p *Point, ncolor int) {
     p.Intensity -= 1
     return
   }
-  p.Intensity = 1
-  p.Color = ncolor
+  p.Intensity = 0
+  p.Color = WHITE
 }
 
 func Beats(c1, c2 int) bool {
@@ -98,6 +101,7 @@ func StepOne(x, y, width, height int, matrix *[][]Point) {
   p1 := &(*matrix)[x][y]
   p2 := &(*matrix)[x2][y2]
   if p1.Color == p2.Color {
+    Lose(p1, WHITE)
     return
   }
   if p1.Color == WHITE {
@@ -138,10 +142,27 @@ func makeMatrix(width, height int) *[][]Point {
   for x := range m {
     m[x] = make([]Point, height)
     for y := range m[x] {
-      m[x][y].Color = WHITE
+      m[x][y].Color = RED
       m[x][y].Intensity = 10
     }
   }
+
+  for x := range m {
+    z := (x/10) % 3
+    if z == 1 {
+      m[x][x].Color = RED
+      m[x][height-x-1].Color = RED
+    } else if z == 2 {
+      m[x][x].Color = GREEN
+      m[x][height-x-1].Color = GREEN
+    } else {
+      m[x][x].Color = BLUE
+      m[x][height-x-1].Color = BLUE
+    }
+    m[x][x].Intensity = 10
+    m[x][height-x-1].Intensity = 10
+  }
+
   /*
   a := width/3
   drawStripe(a, a, 20, 20, &m, RED)
@@ -157,6 +178,7 @@ func makeMatrix(width, height int) *[][]Point {
   drawStripe(a, a-20, 20, 20, &m, GREEN)
   drawStripe(a-20, a, 20, 20, &m, BLUE)
   */
+
   return &m
 }
 
