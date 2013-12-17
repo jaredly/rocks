@@ -188,10 +188,12 @@ func StepOne(x, y, width, height int, p *Point, matrix *[][]Point) {
 			ww = gm
 		}
 		if w == 0 && l == 0 {
-			if m > 5 {
+			if m > 5.5 {
 				Lose(p, WHITE)
 			} else if m > 4 && mm/m > float64(p.Intensity) {
 				Win(p)
+			} else if m < 3 {
+				Lose(p, WHITE)
 			}
 			return
 		}
@@ -294,7 +296,6 @@ func makeMatrix(width, height int) *[][]Point {
 	}
 
 	/*
-	*/
 	  for x := range m {
 	    z := (x/10) % 3
 	    if z == 1 {
@@ -310,8 +311,8 @@ func makeMatrix(width, height int) *[][]Point {
 	    m[x][x].Intensity = 10
 	    m[x][height-x-1].Intensity = 10
 	  }
+	*/
 
-	/*
 		w := 20
 	  a := width/2-w*2
 	  drawStripe(a, a, w, w, &m, RED)
@@ -326,6 +327,7 @@ func makeMatrix(width, height int) *[][]Point {
 
 	  drawStripe(a, a-w, w, w, &m, GREEN)
 	  drawStripe(a-w, a, w, w, &m, BLUE)
+	/*
 	*/
 
 	return &m
