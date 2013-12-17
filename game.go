@@ -217,7 +217,15 @@ func StepOne(x, y, width, height int, p *Point, matrix *[][]Point) {
 	if Beats(p.Color, most) {
 		Win(p)
 		Win(p)
+		Win(p)
+		Win(p)
+		Win(p)
+		Win(p)
 	} else {
+		Lose(p, most)
+		Lose(p, most)
+		Lose(p, most)
+		Lose(p, most)
 		Lose(p, most)
 		Lose(p, most)
 	}
