@@ -190,7 +190,7 @@ func StepOne(x, y, width, height int, p *Point, matrix *[][]Point) {
 		if w == 0 && l == 0 {
 			if m > 5.5 {
 				Lose(p, WHITE)
-			} else if m > 4.5 && mm/m > float64(p.Intensity) {
+			} else if m > 5 && mm/m > float64(p.Intensity) {
 				Win(p)
 			} else if m < 2.5 {
 				Lose(p, WHITE)
