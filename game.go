@@ -294,6 +294,7 @@ func makeMatrix(width, height int) *[][]Point {
 	}
 
 	/*
+	*/
 	  for x := range m {
 	    z := (x/10) % 3
 	    if z == 1 {
@@ -309,22 +310,22 @@ func makeMatrix(width, height int) *[][]Point {
 	    m[x][x].Intensity = 10
 	    m[x][height-x-1].Intensity = 10
 	  }
-	*/
 
 	/*
-	  a := width/3
-	  drawStripe(a, a, 20, 20, &m, RED)
-	  drawStripe(a+20, a, 20, 20, &m, BLUE)
-	  drawStripe(a, a+20, 20, 20, &m, GREEN)
-	  drawStripe(a+20, a+20, 20, 20, &m, RED)
-	  a += 40
-	  drawStripe(a, a, 20, 20, &m, RED)
-	  drawStripe(a+20, a, 20, 20, &m, BLUE)
-	  drawStripe(a, a+20, 20, 20, &m, GREEN)
-	  drawStripe(a+20, a+20, 20, 20, &m, RED)
+		w := 20
+	  a := width/2-w*2
+	  drawStripe(a, a, w, w, &m, RED)
+	  drawStripe(a+w, a, w, w, &m, BLUE)
+	  drawStripe(a, a+w, w, w, &m, GREEN)
+	  drawStripe(a+w, a+w, w, w, &m, RED)
+	  a += w*2
+	  drawStripe(a, a, w, w, &m, RED)
+	  drawStripe(a+w, a, w, w, &m, BLUE)
+	  drawStripe(a, a+w, w, w, &m, GREEN)
+	  drawStripe(a+w, a+w, w, w, &m, RED)
 
-	  drawStripe(a, a-20, 20, 20, &m, GREEN)
-	  drawStripe(a-20, a, 20, 20, &m, BLUE)
+	  drawStripe(a, a-w, w, w, &m, GREEN)
+	  drawStripe(a-w, a, w, w, &m, BLUE)
 	*/
 
 	return &m
