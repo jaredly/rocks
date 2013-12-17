@@ -8,10 +8,10 @@ import (
 )
 
 const (
-  Title  = "Spinning Gopher"
-  Width  = 300
-  Height = 300
-  Scale = 1
+	Title  = "Rock Paper Scissors"
+	Width  = 600
+	Height = 600
+	Scale  = 1
 )
 
 var (
@@ -69,23 +69,23 @@ func initScene() (err error) {
 	gl.Ortho(0, Width*Scale, Height*Scale, 0, 0, 1)
 	gl.MatrixMode(gl.MODELVIEW)
 
-	gl.PointSize(1.0*Scale)
+	gl.PointSize(1.0 * Scale)
 
 	x := 0
 	y := 0
 	dcolor := WHITE
-	glfw.SetMouseButtonCallback(func (button, state int) {
+	glfw.SetMouseButtonCallback(func(button, state int) {
 		dcolor += 1
 		if dcolor > BLUE {
 			dcolor = WHITE
 		}
 	})
-	glfw.SetMousePosCallback(func (mx, my int) {
-                mx /= Scale
-                my /= Scale
-                if mx >= Width || my >= Height || mx < 0 || my < 0 {
-                    return
-                }
+	glfw.SetMousePosCallback(func(mx, my int) {
+		mx /= Scale
+		my /= Scale
+		if mx >= Width || my >= Height || mx < 0 || my < 0 {
+			return
+		}
 		x = mx
 		y = my
 		if matrix != nil {
