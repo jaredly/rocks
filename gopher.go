@@ -16,6 +16,7 @@ const (
 	Title  = "Spinning Gopher"
 	Width  = 300
 	Height = 300
+        Scale = 2
 )
 
 var (
@@ -36,7 +37,7 @@ func main() {
 
 	glfw.OpenWindowHint(glfw.WindowNoResize, 1)
 
-	if err := glfw.OpenWindow(Width, Height, 0, 0, 0, 0, 16, 0, glfw.Windowed); err != nil {
+	if err := glfw.OpenWindow(Width*Scale, Height*Scale, 0, 0, 0, 0, 16, 0, glfw.Windowed); err != nil {
 		fmt.Fprintf(os.Stderr, "glfw: %s\n", err)
 		return
 	}
@@ -67,10 +68,10 @@ func initScene() (err error) {
 
 	gl.ClearColor(0.5, 0.5, 0.5, 0.0)
 
-	gl.Viewport(0, 0, Width, Height)
+	gl.Viewport(0, 0, Width*Scale, Height*Scale)
 	gl.MatrixMode(gl.PROJECTION)
 	gl.LoadIdentity()
-	gl.Ortho(0, Width, Height, 0, 0, 1)
+	gl.Ortho(0, Width*Scale, Height*Scale, 0, 0, 1)
 	gl.MatrixMode(gl.MODELVIEW)
 
 	// gl.Enable(gl.POINT_SPRITE) // GL_POINT_SPRITE_ARB if you're
@@ -79,7 +80,7 @@ func initScene() (err error) {
 	// gl.Enable(gl.POINT_SMOOTH)
 	// gl.Enable(gl.BLEND)
 	// gl.BlendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
-	gl.PointSize(1.0)
+	gl.PointSize(1.0*Scale)
 
 	/* assuming you have setup a 32-bit RGBA texture with a legal name */
 	// gl.ActiveTexture(gl.TEXTURE0)
@@ -98,6 +99,8 @@ func initScene() (err error) {
 		}
 	})
 	glfw.SetMousePosCallback(func (mx, my int) {
+                mx /= Scale
+                my /= Scale
                 if mx >= Width || my >= Height || mx < 0 || my < 0 {
                     return
                 }
@@ -123,7 +126,7 @@ func drawScene() {
 	gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
 	gl.Begin(gl.POINTS)
-	drawMatrix(matrix, 1, 1)
+	drawMatrix(matrix, Scale, Scale)
 	gl.End()
 	gl.Finish()
 }

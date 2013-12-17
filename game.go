@@ -142,11 +142,12 @@ func makeMatrix(width, height int) *[][]Point {
   for x := range m {
     m[x] = make([]Point, height)
     for y := range m[x] {
-      m[x][y].Color = RED
+      m[x][y].Color = WHITE
       m[x][y].Intensity = 10
     }
   }
 
+  /*
   for x := range m {
     z := (x/10) % 3
     if z == 1 {
@@ -162,6 +163,7 @@ func makeMatrix(width, height int) *[][]Point {
     m[x][x].Intensity = 10
     m[x][height-x-1].Intensity = 10
   }
+  */
 
   /*
   a := width/3
