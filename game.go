@@ -190,6 +190,9 @@ func StepOne(x, y, width, height int, p *Point, matrix *[][]Point) {
 			w = g
 			ww = gm
 		}
+		if w == 0 && l == 0 {
+			return
+		}
 		if w >= l {
 			Lose(p, WHITE)
 		} else {
