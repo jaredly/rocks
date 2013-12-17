@@ -190,9 +190,9 @@ func StepOne(x, y, width, height int, p *Point, matrix *[][]Point) {
 		if w == 0 && l == 0 {
 			if m > 5.5 {
 				Lose(p, WHITE)
-			} else if m > 4 && mm/m > float64(p.Intensity) {
+			} else if m > 4.5 && mm/m > float64(p.Intensity) {
 				Win(p)
-			} else if m < 3 {
+			} else if m < 2.5 {
 				Lose(p, WHITE)
 			}
 			return
@@ -222,7 +222,7 @@ func StepOne(x, y, width, height int, p *Point, matrix *[][]Point) {
 }
 
 func UnWhite(color int, num, total float64, p *Point) {
-	i := total/num/2
+	i := total/num - 1
 	if i < 1 {
 		return
 	}
