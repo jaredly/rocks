@@ -9,9 +9,9 @@ import (
 
 const (
 	Title  = "Rock Paper Scissors"
-	Width  = 600
-	Height = 600
-	Scale  = 1
+	Width  = 300
+	Height = 300
+	Scale  = 4
 )
 
 var (
@@ -52,7 +52,7 @@ func main() {
 	defer destroyScene()
 
 	for glfw.WindowParam(glfw.Opened) == 1 {
-		StepMatrix(Width, Height, matrix)
+		matrix = NextMatrix(Width, Height, matrix)
 		drawScene()
 		glfw.SwapBuffers()
 	}

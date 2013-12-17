@@ -56,9 +56,16 @@ func PointColor(p Point) Color {
 	return Color{0, 0, n, 1}
 }
 
+func Dirs() [][2]int {
+	return [][2]int{{-1, 0}, {0, 1}, {1, 0}, {0, -1}}
+}
+func Diags() [][2]int {
+	return [][2]int{{-1, -1}, {-1, 1}, {1, 1}, {1, -1}}
+}
+
 func Dir() (int, int) {
 	n := rand.Intn(8)
-	d := [][2]int{{-1, -1}, {-1, 0}, {-1, 1}, {0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}}[n]
+	d := Dirs()[n]
 	return d[0], d[1]
 }
 
@@ -88,6 +95,135 @@ func Beats(c1, c2 int) bool {
 	return c2 == BLUE
 }
 
+func safe(x, y, dx, dy, width, height int) bool {
+	x2 := x + dx
+	y2 := y + dy
+	return x2 >=0 && y2 >= 0 && x2 < width && y2 < height
+}
+
+func StepOne(x, y, width, height int, p *Point, matrix *[][]Point) {
+	r := 0.0
+	rm := 0.0
+	g := 0.0
+	gm := 0.0
+	b := 0.0
+	bm := 0.0
+	dirs := Dirs()
+	for _, d := range dirs {
+		if !safe(x,y,d[0],d[1],width,height) {
+			continue
+		}
+		p2 := &(*matrix)[x+d[0]][y+d[1]]
+		if p2.Color == RED {
+			r += 1
+			rm += float64(p2.Intensity)
+		}
+		if p2.Color == GREEN {
+			g += 1
+			gm += float64(p2.Intensity)
+		}
+		if p2.Color == BLUE {
+			b += 1
+			bm += float64(p2.Intensity)
+		}
+	}
+	diags := Diags()
+	for _, d := range diags {
+		if !safe(x,y,d[0],d[1],width,height) {
+			continue
+		}
+		p2 := &(*matrix)[x+d[0]][y+d[1]]
+		if p2.Color == RED {
+			r += .5
+			rm += float64(p2.Intensity)/2.0
+		}
+		if p2.Color == GREEN {
+			g += .5
+			gm += float64(p2.Intensity)/2.0
+		}
+		if p2.Color == BLUE {
+			b += .5
+			bm += float64(p2.Intensity)/2.0
+		}
+	}
+	var most int
+	var m, mm float64
+	if r > g && r > b {
+		most = RED
+		m = r
+		mm = rm
+	} else if g > r && g > b {
+		most = GREEN
+		m = g
+		mm = gm
+	} else if b > g && b > r {
+		most = BLUE
+		m = b
+		mm = bm
+	}
+	if mm == 0 {
+		return
+	}
+
+	if p.Color == WHITE {
+		UnWhite(most, m, mm, p)
+		return
+	}
+	if most == p.Color {
+		if m > 5 && mm/m > float64(p.Intensity) {
+			Win(p)
+		}
+		var l, ll, w, ww float64
+		if most == RED {
+			l = g
+			ll = gm
+			w = b
+			ww = bm
+		} else if most == GREEN {
+			l = b
+			ll = bm
+			w = r
+			ww = rm
+		} else {
+			l = r
+			ll = rm
+			w = g
+			ww = gm
+		}
+		if w >= l {
+			Lose(p, WHITE)
+		} else {
+			Win(p)
+		}
+		ll += ww
+		ww += ll
+		return
+		/*
+		if m > 5 {
+			Lose(p, WHITE)
+		} else if m > 2 {
+			Win(p)
+		}
+		return
+		*/
+	}
+	if Beats(p.Color, most) {
+		Win(p)
+	} else {
+		Lose(p, most)
+	}
+}
+
+func UnWhite(color int, num, total float64, p *Point) {
+	i := total/num/2
+	if i < 1 {
+		return
+	}
+	p.Color = color
+	p.Intensity = int(i)
+}
+
+/*
 func StepOne(x, y, width, height int, matrix *[][]Point) {
 	dx, dy := Dir()
 	x2 := x + dx
@@ -126,13 +262,20 @@ func StepOne(x, y, width, height int, matrix *[][]Point) {
 		Lose(p2, p2.Color)
 	}
 }
+*/
 
-func StepMatrix(width, height int, matrix *[][]Point) {
+func NextMatrix(width, height int, matrix *[][]Point) *[][]Point {
+	m := make([][]Point, width)
+	for x := range m {
+		m[x] = make([]Point, height)
+	}
 	for x := range *matrix {
 		for y := range (*matrix)[x] {
-			StepOne(x, y, width, height, matrix)
+			m[x][y] = (*matrix)[x][y]
+			StepOne(x, y, width, height, &m[x][y], matrix)
 		}
 	}
+	return &m
 }
 
 func makeMatrix(width, height int) *[][]Point {
