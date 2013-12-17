@@ -1,22 +1,17 @@
 package main
 
 import (
-	// "bytes"
-	// "errors"
 	"fmt"
 	gl "github.com/chsc/gogl/gl21"
 	"github.com/jteeuwen/glfw"
-	// "image"
-	// "image/png"
-	// "io"
 	"os"
 )
 
 const (
-	Title  = "Spinning Gopher"
-	Width  = 300
-	Height = 300
-        Scale = 2
+  Title  = "Spinning Gopher"
+  Width  = 300
+  Height = 300
+  Scale = 1
 )
 
 var (
@@ -74,20 +69,7 @@ func initScene() (err error) {
 	gl.Ortho(0, Width*Scale, Height*Scale, 0, 0, 1)
 	gl.MatrixMode(gl.MODELVIEW)
 
-	// gl.Enable(gl.POINT_SPRITE) // GL_POINT_SPRITE_ARB if you're
-	// using the functionality as an extension.
-
-	// gl.Enable(gl.POINT_SMOOTH)
-	// gl.Enable(gl.BLEND)
-	// gl.BlendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
 	gl.PointSize(1.0*Scale)
-
-	/* assuming you have setup a 32-bit RGBA texture with a legal name */
-	// gl.ActiveTexture(gl.TEXTURE0)
-	// gl.Enable(gl.TEXTURE_2D)
-	// gl.TexEnv(gl.POINT_SPRITE, gl.COORD_REPLACE, gl.TRUE);
-	// gl.TexEnv(gl.TEXTURE_ENV, gl.TEXTURE_ENV_MODE, gl.REPLACE);
-	// gl.BindTexture(gl.TEXTURE_2D, texture)
 
 	x := 0
 	y := 0

@@ -92,13 +92,11 @@ func StepOne(x, y, width, height int, matrix *[][]Point) {
   dx, dy := Dir()
   x2 := x + dx
   y2 := y + dy
-  if x2 < 0 || x2 >= width {
-    return
-  }
-  if y2 < 0 || y2 >= height {
-    return
-  }
   p1 := &(*matrix)[x][y]
+  if x2 < 0 || x2 >= width || y2 < 0 || y2 >= height {
+    Lose(p1, WHITE)
+    return
+  }
   p2 := &(*matrix)[x2][y2]
   if p1.Color == p2.Color {
     Lose(p1, WHITE)
