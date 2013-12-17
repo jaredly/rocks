@@ -9,8 +9,8 @@ import (
 
 const (
 	Title  = "Rock Paper Scissors"
-	Width  = 300
-	Height = 300
+	Width  = 150
+	Height = 150
 	Scale  = 4
 )
 
