@@ -81,8 +81,8 @@ func Lose(p *Point, ncolor int) {
 		p.Intensity -= 1
 		return
 	}
-	p.Intensity = 0
-	p.Color = WHITE
+	p.Intensity = 1
+	p.Color = ncolor
 }
 
 func Beats(c1, c2 int) bool {
@@ -148,15 +148,15 @@ func StepOne(x, y, width, height int, p *Point, matrix *[][]Point) {
 	}
 	var most int
 	var m, mm float64
-	if r > g && r > b {
+	if rm > gm && rm > bm {
 		most = RED
 		m = r
 		mm = rm
-	} else if g > r && g > b {
+	} else if gm > rm && gm > bm {
 		most = GREEN
 		m = g
 		mm = gm
-	} else if b > g && b > r {
+	} else if bm > gm && bm > rm {
 		most = BLUE
 		m = b
 		mm = bm
@@ -170,9 +170,6 @@ func StepOne(x, y, width, height int, p *Point, matrix *[][]Point) {
 		return
 	}
 	if most == p.Color {
-		if m > 5 && mm/m > float64(p.Intensity) {
-			Win(p)
-		}
 		var l, ll, w, ww float64
 		if most == RED {
 			l = g
@@ -191,6 +188,11 @@ func StepOne(x, y, width, height int, p *Point, matrix *[][]Point) {
 			ww = gm
 		}
 		if w == 0 && l == 0 {
+			if m > 5 {
+				Lose(p, WHITE)
+			} else if m > 4 && mm/m > float64(p.Intensity) {
+				Win(p)
+			}
 			return
 		}
 		if w >= l {
