@@ -69,11 +69,26 @@ func Dir() (int, int) {
 	return d[0], d[1]
 }
 
+func WinIt(p *Point, more float64) {
+	p.Intensity += int(more)
+	if p.Intensity > 10 {
+		p.Intensity = 10
+	}
+}
+
 func Win(p *Point) {
 	if p.Intensity >= 10 {
 		return
 	}
 	p.Intensity += 1
+}
+
+func LoseIt(p *Point, ncolor int, more float64) {
+	p.Intensity -= int(more)
+	if p.Intensity < 1 {
+		p.Intensity = 1
+		p.Color = ncolor
+	}
 }
 
 func Lose(p *Point, ncolor int) {
@@ -215,18 +230,8 @@ func StepOne(x, y, width, height int, p *Point, matrix *[][]Point) {
 		*/
 	}
 	if Beats(p.Color, most) {
-		Win(p)
-		Win(p)
-		Win(p)
-		Win(p)
-		Win(p)
-		Win(p)
+		WinIt(p, m)
 	} else {
-		Lose(p, most)
-		Lose(p, most)
-		Lose(p, most)
-		Lose(p, most)
-		Lose(p, most)
 		Lose(p, most)
 	}
 }
@@ -305,7 +310,6 @@ func makeMatrix(width, height int) *[][]Point {
 		}
 	}
 
-	/*
 	  for x := range m {
 	    z := (x/10) % 3
 	    if z == 1 {
@@ -321,8 +325,10 @@ func makeMatrix(width, height int) *[][]Point {
 	    m[x][x].Intensity = 10
 	    m[x][height-x-1].Intensity = 10
 	  }
+	/*
 	*/
 
+	/*
 		w := 20
 	  a := width/2-w*2
 	  drawStripe(a, a, w, w, &m, RED)
@@ -337,7 +343,6 @@ func makeMatrix(width, height int) *[][]Point {
 
 	  drawStripe(a, a-w, w, w, &m, GREEN)
 	  drawStripe(a-w, a, w, w, &m, BLUE)
-	/*
 	*/
 
 	return &m
