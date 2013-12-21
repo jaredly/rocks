@@ -36,7 +36,7 @@ func RunGame(title string, width, height int, init, draw func()) {
 	// defer destroyScene()
 
 	for glfw.WindowParam(glfw.Opened) == 1 {
-    drawScene(draw)
+		drawScene(draw)
 		glfw.SwapBuffers()
 	}
 }
@@ -52,14 +52,14 @@ func initScene(width, height int, init func()) (err error) {
 	gl.Ortho(0, gl.Double(width), gl.Double(height), 0, 0, 1)
 	gl.MatrixMode(gl.MODELVIEW)
 
-  init()
+	init()
 
 	return
 }
 
 /*
 func destroyScene() {
-	gl.DeleteTextures(1, &texture)
+  gl.DeleteTextures(1, &texture)
 }
 */
 
@@ -67,6 +67,6 @@ func drawScene(draw func()) {
 	// gl.ClearColor(1.0, 1.0, 1.0, 1.0)
 	gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
-  draw()
+	draw()
 	gl.Finish()
 }

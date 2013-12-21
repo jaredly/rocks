@@ -113,7 +113,7 @@ func Beats(c1, c2 int) bool {
 func safe(x, y, dx, dy, width, height int) bool {
 	x2 := x + dx
 	y2 := y + dy
-	return x2 >=0 && y2 >= 0 && x2 < width && y2 < height
+	return x2 >= 0 && y2 >= 0 && x2 < width && y2 < height
 }
 
 func StepOne(x, y, width, height int, p *Point, matrix *[][]Point) {
@@ -125,7 +125,7 @@ func StepOne(x, y, width, height int, p *Point, matrix *[][]Point) {
 	bm := 0.0
 	dirs := Dirs()
 	for _, d := range dirs {
-		if !safe(x,y,d[0],d[1],width,height) {
+		if !safe(x, y, d[0], d[1], width, height) {
 			continue
 		}
 		p2 := &(*matrix)[x+d[0]][y+d[1]]
@@ -143,22 +143,23 @@ func StepOne(x, y, width, height int, p *Point, matrix *[][]Point) {
 		}
 	}
 	diags := Diags()
+	diagscale := .5
 	for _, d := range diags {
-		if !safe(x,y,d[0],d[1],width,height) {
+		if !safe(x, y, d[0], d[1], width, height) {
 			continue
 		}
 		p2 := &(*matrix)[x+d[0]][y+d[1]]
 		if p2.Color == RED {
-			r += .5
-			rm += float64(p2.Intensity)/2.0
+			r += 1 * diagscale
+			rm += float64(p2.Intensity) * diagscale
 		}
 		if p2.Color == GREEN {
-			g += .5
-			gm += float64(p2.Intensity)/2.0
+			g += 1 * diagscale
+			gm += float64(p2.Intensity) * diagscale
 		}
 		if p2.Color == BLUE {
-			b += .5
-			bm += float64(p2.Intensity)/2.0
+			b += 1 * diagscale
+			bm += float64(p2.Intensity) * diagscale
 		}
 	}
 	var most int
@@ -205,9 +206,9 @@ func StepOne(x, y, width, height int, p *Point, matrix *[][]Point) {
 		if w == 0 && l == 0 {
 			if m > 5.5 {
 				Lose(p, WHITE)
-			} else if m > 5.5 && mm/m > float64(p.Intensity) {
+			} else if m > 4.5 && mm/m > float64(p.Intensity) {
 				Win(p)
-			} else if m < 2.5 {
+			} else if m < 4.5 && m > 1.5 {
 				Lose(p, WHITE)
 			}
 			return
@@ -221,12 +222,12 @@ func StepOne(x, y, width, height int, p *Point, matrix *[][]Point) {
 		ww += ll
 		return
 		/*
-		if m > 5 {
-			Lose(p, WHITE)
-		} else if m > 2 {
-			Win(p)
-		}
-		return
+			if m > 5 {
+				Lose(p, WHITE)
+			} else if m > 2 {
+				Win(p)
+			}
+			return
 		*/
 	}
 	if Beats(p.Color, most) {
@@ -310,39 +311,39 @@ func makeMatrix(width, height int) *[][]Point {
 		}
 	}
 
-	  for x := range m {
-	    z := (x/10) % 3
-	    if z == 1 {
-	      m[x][x].Color = RED
-	      m[x][height-x-1].Color = RED
-	    } else if z == 2 {
-	      m[x][x].Color = GREEN
-	      m[x][height-x-1].Color = GREEN
-	    } else {
-	      m[x][x].Color = BLUE
-	      m[x][height-x-1].Color = BLUE
-	    }
-	    m[x][x].Intensity = 10
-	    m[x][height-x-1].Intensity = 10
-	  }
+	for x := range m {
+		z := (x / 10) % 3
+		if z == 1 {
+			m[x][x].Color = RED
+			m[x][height-x-1].Color = RED
+		} else if z == 2 {
+			m[x][x].Color = GREEN
+			m[x][height-x-1].Color = GREEN
+		} else {
+			m[x][x].Color = BLUE
+			m[x][height-x-1].Color = BLUE
+		}
+		m[x][x].Intensity = 10
+		m[x][height-x-1].Intensity = 10
+	}
 	/*
-	*/
+	 */
 
 	/*
-		w := 20
-	  a := width/2-w*2
-	  drawStripe(a, a, w, w, &m, RED)
-	  drawStripe(a+w, a, w, w, &m, BLUE)
-	  drawStripe(a, a+w, w, w, &m, GREEN)
-	  drawStripe(a+w, a+w, w, w, &m, RED)
-	  a += w*2
-	  drawStripe(a, a, w, w, &m, RED)
-	  drawStripe(a+w, a, w, w, &m, BLUE)
-	  drawStripe(a, a+w, w, w, &m, GREEN)
-	  drawStripe(a+w, a+w, w, w, &m, RED)
+			w := 20
+		  a := width/2-w*2
+		  drawStripe(a, a, w, w, &m, RED)
+		  drawStripe(a+w, a, w, w, &m, BLUE)
+		  drawStripe(a, a+w, w, w, &m, GREEN)
+		  drawStripe(a+w, a+w, w, w, &m, RED)
+		  a += w*2
+		  drawStripe(a, a, w, w, &m, RED)
+		  drawStripe(a+w, a, w, w, &m, BLUE)
+		  drawStripe(a, a+w, w, w, &m, GREEN)
+		  drawStripe(a+w, a+w, w, w, &m, RED)
 
-	  drawStripe(a, a-w, w, w, &m, GREEN)
-	  drawStripe(a-w, a, w, w, &m, BLUE)
+		  drawStripe(a, a-w, w, w, &m, GREEN)
+		  drawStripe(a-w, a, w, w, &m, BLUE)
 	*/
 
 	return &m
