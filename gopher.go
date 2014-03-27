@@ -40,7 +40,9 @@ func main() {
 				(*matrix)[x][y].Intensity = 10
 			}
 		})
-
+		glfw.SetKeyCallback(func(key, state int) {
+			matrix = makeMatrix(Width, Height)
+		})
 		matrix = makeMatrix(Width, Height)
 	}, func() {
 		matrix = NextMatrix(Width, Height, matrix)
