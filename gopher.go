@@ -2,7 +2,7 @@ package main
 
 import (
 	gl "github.com/chsc/gogl/gl21"
-	"github.com/jteeuwen/glfw"
+	"github.com/go-gl/glfw"
 )
 
 const (
